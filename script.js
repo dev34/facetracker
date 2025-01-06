@@ -12,16 +12,15 @@ Promise.all([
 ]).then(startVideo);
 
 function startVideo() {
-  navigator.getUserMedia(
-    { video: {} },
-    stream => {
+  navigator.mediaDevices
+    .getUserMedia({ video: {} })
+    .then(stream => {
       video.srcObject = stream;
       video.onloadedmetadata = () => {
         video.play();
       };
-    },
-    err => console.error(err)
-  );
+    })
+    .catch(err => console.error("Error accessing media devices:", err));
 }
 
 video.addEventListener('play', () => {
